@@ -1,0 +1,17 @@
+FROM nvcr.io/nvidia/tensorflow:19.05-py3
+
+# Create app directory
+WORKDIR /app
+
+# Bundle app source
+COPY . .
+
+# Install opencv deps
+RUN apt-get update
+RUN apt-get install -y libsm6 libxext6 libxrender-dev
+
+# Install python dependencies
+RUN pip install -r requirements-docker.txt
+RUN cd mask-rcnn && pip install .
+
+#CMD ["sh", "scripts/launch-eq-notebook.sh"]
